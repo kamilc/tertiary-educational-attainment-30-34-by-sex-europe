@@ -16,6 +16,7 @@ library(kableExtra)
 library(magrittr)
 library(geojsonio)
 library(spdplyr)
+library(glue)
 
 geo_file <- 'NUTS_RG_60M_2016_4326_LEVL_1.geojson'
 geo_zip <- 'map.zip'
@@ -74,9 +75,13 @@ edu.data %>%
   scroll_box(width = "100%", height = "400px")
 
 pal <- colorNumeric(
-  palette = "YlOrRd",
+  palette = colorRamp(c("#ff0000", "#00ff00"), interpolate='spline'),
   domain = edu.data$diff
 )
+
+labels <-
+  glue("<strong>{edu.data$nuts_id}</strong><br/>{edu.data$diff}%") %>%
+  lapply(htmltools::HTML)
 
 #+ map, cache=FALSE
 leaflet(maps, width="100%") %>%
@@ -84,7 +89,19 @@ leaflet(maps, width="100%") %>%
     color = 'grey',
     weight=0.5,
     opacity = 1,
-    fillColor=~pal(edu.data$diff)
+    fillColor=~pal(edu.data$diff),
+    label = labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    ),
+    highlight = highlightOptions(
+      weight = 1,
+      color = "#666",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    )
   ) %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addLegend(
@@ -95,13 +112,34 @@ leaflet(maps, width="100%") %>%
     position = "bottomright"
   )
 
+pal <- colorNumeric(
+  palette = colorRamp(c("#ff0000", "#00ff00"), interpolate='spline'),
+  domain = edu.data[["2018-01-01"]]
+)
+
+labels <-
+  glue("<strong>{edu.data$nuts_id}</strong><br/>{edu.data[[\"2018-01-01\"]]}%") %>%
+  lapply(htmltools::HTML)
+
 #+ map2, cache=FALSE
 leaflet(maps, width="100%") %>%
   addPolygons(
     color = 'grey',
     weight=0.5,
     opacity = 1,
-    fillColor=~pal(edu.data[["2018-01-01"]])
+    fillColor=~pal(edu.data[["2018-01-01"]]),
+    label = labels,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto"
+    ),
+    highlight = highlightOptions(
+      weight = 1,
+      color = "#666",
+      fillOpacity = 0.7,
+      bringToFront = TRUE
+    )
   ) %>%
   addProviderTiles(providers$CartoDB.Positron) %>%
   addLegend(
