@@ -14,17 +14,22 @@ library(janitor)
 library(knitr)
 library(kableExtra)
 library(magrittr)
+library(geojsonio)
+library(spdplyr)
 
-geo_file <- 'map.geojson'
+geo_file <- 'NUTS_RG_60M_2016_4326_LEVL_1.geojson'
+geo_zip <- 'map.zip'
 
 if(!file.exists(geo_file)) {
   download.file(
-    'https://datahub.io/core/geo-nuts-administrative-boundaries/r/nuts_rg_60m_2013_lvl_1.geojson',
-    destfile=geo_file
+    'https://ec.europa.eu/eurostat/cache/GISCO/distribution/v2/nuts/download/ref-nuts-2016-60m.geojson.zip',
+    destfile=geo_zip
   )
+  unzip(geo_zip)
 }
 
 maps <- geojson_read(geo_file, what="sp")
+maps$NUTS_ID <- as.character(maps$NUTS_ID)
 
 query <- search_eurostat("education", type = "table") %>%
   select(code, title)
@@ -56,7 +61,11 @@ edu.data %<>%
 edu.data %<>% spread(time, values)
 edu.data %<>% mutate(diff=.[["2018-01-01"]] - .[["2007-01-01"]])
 edu.data %<>% drop_na()
-edu.data %<>% mutate(nuts_id=geo) %>% select(-geo)
+edu.data %<>% mutate(nuts_id=as.character(geo)) %>% select(-geo)
+edu.data %<>% filter(nuts_id %in% maps$NUTS_ID)
+
+maps <- maps[maps$NUTS_ID %in% edu.data$nuts_id, ]
+maps <- maps[match(edu.data$nuts_id, maps$NUTS_ID), ]
 
 edu.data %>%
   arrange(nuts_id) %>%
