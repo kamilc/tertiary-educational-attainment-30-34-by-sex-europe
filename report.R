@@ -7,6 +7,12 @@
 #' title: "Tertiary educational attainment, age group 30-34 by sex and NUTS 1 regions"
 #' ---
 
+#' In this work I'm exploring the tertriary education attament in the EU. The document
+#' includes the interactive maps as a result at its bottom.
+#'
+#' # Obtaining Data
+
+#+ get-data, collapse=TRUE
 library(tidyverse)
 library(leaflet)
 library(eurostat)
@@ -32,47 +38,43 @@ if(!file.exists(geo_file)) {
 maps <- geojson_read(geo_file, what="sp")
 maps$NUTS_ID <- as.character(maps$NUTS_ID)
 
-query <- search_eurostat("education", type = "table") %>%
-  select(code, title)
-
-query %>%
-  kable %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
-  scroll_box(width = "100%", height = "400px")
-
-query %>%
-  filter(code == 'tgs00105') %>%
-  unique %>%
-  kable %>%
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
-
 edu.data <- get_eurostat(id='tgs00105')
+
+#' The data comes directly from Eurostat. Let's see how it looks like:
 
 edu.data %>% glimpse
 
 edu.data %>% summary
 
-edu.data %<>% filter(time == "2007-01-01" | time == "2018-01-01")
-edu.data %<>% select(-unit, -isced11, -age)
-edu.data %<>%
+#' We'll compare the percentage of members populations with terriary educational level attained
+#' between 2018 and 2017. We'll compute the percentage difference which will give us a way to
+#' quantify the 11 years change. Two maps will be presented - the one overlaying the change
+#' and the one showing actual percentages in 2018.
+
+edu.data %<>% filter(time == "2007-01-01" | time == "2018-01-01") %>%
+  select(-unit, -isced11, -age) %>%
   group_by(geo, time) %>%
   summarise(values=mean(values, na.rm = TRUE)) %>%
-  ungroup
-
-edu.data %<>% spread(time, values)
-edu.data %<>% mutate(diff=.[["2018-01-01"]] - .[["2007-01-01"]])
-edu.data %<>% drop_na()
-edu.data %<>% mutate(nuts_id=as.character(geo)) %>% select(-geo)
-edu.data %<>% filter(nuts_id %in% maps$NUTS_ID)
+  ungroup %>%
+  spread(time, values) %>%
+  mutate(diff=.[["2018-01-01"]] - .[["2007-01-01"]]) %>%
+  drop_na() %>%
+  mutate(nuts_id=as.character(geo)) %>%
+  select(-geo) %>%
+  filter(nuts_id %in% maps$NUTS_ID)
 
 maps <- maps[maps$NUTS_ID %in% edu.data$nuts_id, ]
 maps <- maps[match(edu.data$nuts_id, maps$NUTS_ID), ]
+
+#' Let's look at the data:
 
 edu.data %>%
   arrange(nuts_id) %>%
   kable %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) %>%
   scroll_box(width = "100%", height = "400px")
+
+#' # Map overlay of the 11 year percentage difference 2018-2017
 
 pal <- colorNumeric(
   palette = colorRamp(c("#ff0000", "#00ff00"), interpolate='spline'),
@@ -111,6 +113,8 @@ leaflet(maps, width="100%") %>%
     title = NULL,
     position = "bottomright"
   )
+
+#' # Map overlay of the percentage levels in 2018
 
 pal <- colorNumeric(
   palette = colorRamp(c("#ff0000", "#00ff00"), interpolate='spline'),
