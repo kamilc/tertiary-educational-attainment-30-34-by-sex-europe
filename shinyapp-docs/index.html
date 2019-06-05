@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tertiary educational attainment, age group 30-34 by sex and NUTS 1 regions</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Tertiary educational attainment, age group 30-34 by sex and NUTS 1 regions">
+  <meta name="author" content="Kamil Ciemniewski &lt;kamil@ciemniew.ski&gt;">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Tertiary educational attainment, age group 30-34 by sex and NUTS 1 regions</h1>
+    <h2>App Presentation</h2>
+    <p>Kamil Ciemniewski &lt;kamil@ciemniew.ski&gt;<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Intro</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Eurostat is the source of lots of data for the EU countries. The assignment
+Shiny app allows to easily explore the tetriary education level assignment
+accross Union&#39;s countries.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Here&#39;s how the from Eurostat looks like:</p>
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> 2007-01-01 </th>
+   <th style="text-align:right;"> 2018-01-01 </th>
+   <th style="text-align:right;"> diff </th>
+   <th style="text-align:left;"> nuts_id </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 23.26667 </td>
+   <td style="text-align:right;"> 43.73333 </td>
+   <td style="text-align:right;"> 20.466667 </td>
+   <td style="text-align:left;"> AT1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 18.36667 </td>
+   <td style="text-align:right;"> 38.16667 </td>
+   <td style="text-align:right;"> 19.800000 </td>
+   <td style="text-align:left;"> AT2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 19.33333 </td>
+   <td style="text-align:right;"> 38.13333 </td>
+   <td style="text-align:right;"> 18.800000 </td>
+   <td style="text-align:left;"> AT3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 47.60000 </td>
+   <td style="text-align:right;"> 56.26667 </td>
+   <td style="text-align:right;"> 8.666667 </td>
+   <td style="text-align:left;"> BE1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 42.03333 </td>
+   <td style="text-align:right;"> 48.16667 </td>
+   <td style="text-align:right;"> 6.133333 </td>
+   <td style="text-align:left;"> BE2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 38.03333 </td>
+   <td style="text-align:right;"> 42.50000 </td>
+   <td style="text-align:right;"> 4.466667 </td>
+   <td style="text-align:left;"> BE3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 22.20000 </td>
+   <td style="text-align:right;"> 25.76667 </td>
+   <td style="text-align:right;"> 3.566667 </td>
+   <td style="text-align:left;"> BG3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 29.96667 </td>
+   <td style="text-align:right;"> 40.30000 </td>
+   <td style="text-align:right;"> 10.333333 </td>
+   <td style="text-align:left;"> BG4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 36.50000 </td>
+   <td style="text-align:right;"> 55.00000 </td>
+   <td style="text-align:right;"> 18.500000 </td>
+   <td style="text-align:left;"> CH0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 46.20000 </td>
+   <td style="text-align:right;"> 56.90000 </td>
+   <td style="text-align:right;"> 10.700000 </td>
+   <td style="text-align:left;"> CY0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 13.33333 </td>
+   <td style="text-align:right;"> 33.86667 </td>
+   <td style="text-align:right;"> 20.533333 </td>
+   <td style="text-align:left;"> CZ0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 29.96667 </td>
+   <td style="text-align:right;"> 39.06667 </td>
+   <td style="text-align:right;"> 9.100000 </td>
+   <td style="text-align:left;"> DE1 </td>
+  </tr>
+</tbody>
+</table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Map</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="map1.png" title="map" alt="map" width="100%" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>App UI</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="screen.png" title="ui" alt="ui" width="100%" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Intro'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Map'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='App UI'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
